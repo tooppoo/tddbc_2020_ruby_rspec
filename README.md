@@ -11,7 +11,10 @@ TDDBC for Ruby with RSpec
 ## セットアップ
 ```bash
 gem install bundler
-bundle install
+# ruby 2.7でbundler 1.7が無い場合は以下
+gem install bundler -v "~>1.7"
+
+bundle install --path vendor
 ```
 
 `rspec` コマンドを実行して
