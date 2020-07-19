@@ -16,5 +16,12 @@ describe Sample do
       let(:greeting){ "Yeah!" }
       it { should eq "Yeah! TDD BootCamp!" }
     end
+
+    describe "Using subject it should " do
+      subject { sample.say(greeting) }
+
+      let(:greeting){ "Yeah!" }
+      it { should eq "Yeah! TDD BootCamp!" }
+    end
   end
 end
