@@ -83,9 +83,8 @@ describe ClosedRange do
   end
 
   describe '別の閉区間と等価かどうかを判定する' do
+    let(:closed_range1) { ClosedRange.new(lower: lower, upper: upper) }
     describe '下端点と上端点は等しい' do
-      let(:lower) { 3 }
-      let
       it '閉区間[3,8]と閉区間[3,8]は等しい' do
         expect(ClosedRange.new(lower: 3, upper: 8) == ClosedRange.new(lower: 3, upper: 8)).to eq true
       end
