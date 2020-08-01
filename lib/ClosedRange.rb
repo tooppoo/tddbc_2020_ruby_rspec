@@ -1,6 +1,12 @@
+require 'singleton'
+
 class ClosedRange
   class InvalidClosedRangeError < StandardError
 
+  end
+
+  def self.empty
+    ClosedRange::Empty.instance
   end
 
   def initialize(lower:, upper:)
@@ -48,5 +54,30 @@ class ClosedRange
   end
   def upper
     @upper
+  end
+
+  class Empty
+    include Singleton
+
+    def to_s
+      'empty'
+    end
+    def inspect
+      to_s
+    end
+
+    def include?(_num)
+      false
+    end
+    def contain?(_range)
+      false
+    end
+    def to_a
+      []
+    end
+
+    def *(_range)
+      self
+    end
   end
 end

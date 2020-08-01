@@ -288,3 +288,68 @@ describe ClosedRange do
     end
   end
 end
+
+describe ClosedRange::Empty do
+  let(:empty) { ClosedRange.empty }
+
+  describe '文字列表現を返す' do
+    it 'empty' do
+      expect(empty.to_s).to eq 'empty'
+    end
+  end
+  describe '整数の閉区間は指定した整数を含むかどうかを判定する' do
+    it false do
+      expect(empty.include?(3)).to be false
+    end
+  end
+  describe '別の閉区間と等価かどうかを判定できる' do
+    subject { empty == other }
+    where(:case_name, :other, :expected) do
+      [
+        ['範囲有り', ClosedRange.new(lower: 3, upper: 8), false],
+        ['範囲無し', ClosedRange.empty, true],
+      ]
+    end
+
+    with_them do
+      context "#{params[:other]}" do
+        it { is_expected.to be expected }
+      end
+    end
+  end
+  describe '閉区間aが閉区間bを完全に含むかどうかを判定する' do
+    subject { empty.contain?(other) }
+    where(:case_name, :other)do
+      [
+        ['範囲有り', ClosedRange.new(lower: 3, upper: 8)],
+        ['範囲無し', ClosedRange.empty],
+      ]
+    end
+
+    with_them do
+      context "#{params[:other]}" do
+        it { is_expected.to be false }
+      end
+    end
+  end
+  describe '閉区間aに含まれる整数を列挙できる' do
+    it [] do
+      expect(empty.to_a).to eq []
+    end
+  end
+  describe '閉区間aと閉区間bの重複を取れる' do
+    subject { empty * other }
+    where(:case_name, :other)do
+      [
+        ['範囲有り', ClosedRange.new(lower: 3, upper: 8)],
+        ['範囲無し', ClosedRange.empty],
+      ]
+    end
+
+    with_them do
+      context "#{params[:other]}" do
+        it { is_expected.to eq ClosedRange.empty }
+      end
+    end
+  end
+end
