@@ -16,6 +16,7 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'rspec-parameterized'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in lib/ and its subdirectories.
