@@ -68,7 +68,7 @@ describe ClosedRange do
 
   describe '別の閉区間と等価かどうかを判定する' do
     it '閉区間[3,8]と閉区間[3,8]は等しい' do
-      expect(ClosedRange.new(lower: 4, upper: 3)).to  
+      expect(ClosedRange.new(lower: 3, upper: 8) == ClosedRange.new(lower: 3, upper: 8)).to eq true
     end
   end
 end

@@ -19,4 +19,8 @@ class ClosedRange
   def include?(num)
     @lower <= num && num <= @upper
   end
+
+  def ==(range)
+
+  end
 end
