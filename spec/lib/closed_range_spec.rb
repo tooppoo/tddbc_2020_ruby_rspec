@@ -30,25 +30,30 @@ describe ClosedRange do
     end
 
     describe '整数の閉区間に整数pは含まれるか' do
+      describe 'p < 下端点' do
+        it '下端点 3, 上端点 8 の整数閉区間は2を含まない' do
+          expect(ClosedRange.new(lower: 3, upper: 8).include?(2)).to eq false
+        end
+      end
+      describe '下端点 == p' do
+        it '下端点 3, 上端点 8 の整数閉区間は3を含む' do
+          expect(ClosedRange.new(lower: 3, upper: 8).include?(3)).to eq true
+        end
+      end
       describe '下端点 < p < 上端点' do
         it '下端点 3, 上端点 8 の整数閉区間は4を含む' do
           expect(ClosedRange.new(lower: 3, upper: 8).include?(4)).to eq true
         end
       end
-      describe '' do
-        it '下端点 3, 上端点 8 の整数閉区間は3を含む' do
-          expect(ClosedRange.new(lower: 3, upper: 8).include?(3)).to eq true
+      describe 'p == 上端点' do
+        it '下端点 3, 上端点 8 の整数閉区間は8を含む' do
+          expect(ClosedRange.new(lower: 3, upper: 8).include?(8)).to eq true
         end
       end
-
-      it '下端点 3, 上端点 8 の整数閉区間は8を含む' do
-        expect(ClosedRange.new(lower: 3, upper: 8).include?(8)).to eq true
-      end
-      it '下端点 3, 上端点 8 の整数閉区間は2を含まない' do
-        expect(ClosedRange.new(lower: 3, upper: 8).include?(2)).to eq false
-      end
-      it '下端点 3, 上端点 8 の整数閉区間は9を含まない' do
-        expect(ClosedRange.new(lower: 3, upper: 8).include?(9)).to eq false
+      describe '上端点 < p' do
+        it '下端点 3, 上端点 8 の整数閉区間は9を含まない' do
+          expect(ClosedRange.new(lower: 3, upper: 8).include?(9)).to eq false
+        end
       end
     end
   end
@@ -58,6 +63,12 @@ describe ClosedRange do
       it '下端点 4, 上端点 3の閉区間を作ることができない' do
         expect { ClosedRange.new(lower: 4, upper: 3) }.to raise_error ClosedRange::InvalidClosedRangeError
       end
+    end
+  end
+
+  describe '別の閉区間と等価かどうかを判定する' do
+    it '閉区間[3,8]と閉区間[3,8]は等しい' do
+      expect(ClosedRange.new(lower: 4, upper: 3)).to  
     end
   end
 end
