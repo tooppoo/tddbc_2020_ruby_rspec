@@ -58,34 +58,34 @@ describe ClosedRange do
   describe '整数の閉区間に整数pは含まれるか' do
     let(:lower) { 3 }
     let(:upper) { 8 }
-    subject { closed_range.include?(num) }
+    subject { closed_range.include?(p) }
 
     describe 'p < 下端点' do
-      let(:num) { 2 }
+      let(:p) { 2 }
       it '下端点 3, 上端点 8 の整数閉区間は2を含まない' do
         expect(subject).to eq false
       end
     end
     describe '下端点 == p' do
-      let(:num) { 3 }
+      let(:p) { 3 }
       it '下端点 3, 上端点 8 の整数閉区間は3を含む' do
         expect(subject).to eq true
       end
     end
     describe '下端点 < p < 上端点' do
-      let(:num) { 4 }
+      let(:p) { 4 }
       it '下端点 3, 上端点 8 の整数閉区間は4を含む' do
         expect(subject).to eq true
       end
     end
     describe 'p == 上端点' do
-      let(:num) { 8 }
+      let(:p) { 8 }
       it '下端点 3, 上端点 8 の整数閉区間は8を含む' do
         expect(subject).to eq true
       end
     end
     describe '上端点 < p' do
-      let(:num) { 9 }
+      let(:p) { 9 }
       it '下端点 3, 上端点 8 の整数閉区間は9を含まない' do
         expect(subject).to eq false
       end
