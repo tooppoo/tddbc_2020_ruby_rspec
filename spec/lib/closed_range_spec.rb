@@ -73,6 +73,48 @@ describe ClosedRange do
         end
       end
     end
+
+    describe '別の閉区間と等価かどうかを判定する' do
+      let(:closed_range1) { ClosedRange.new(lower: 3, upper: 8) }
+      let(:closed_range2) { ClosedRange.new(lower: lower, upper: upper) }
+
+      subject { closed_range1 == closed_range2 }
+
+      describe '下端点と上端点は等しい' do
+        let(:lower) { 3 }
+        let(:upper) { 8 }
+        it '閉区間[3,8]と閉区間[3,8]は等しい' do
+          expect(subject).to eq true
+        end
+      end
+      describe '下端点は等しいが、上端点は等しくない' do
+        let(:lower) { 3 }
+        let(:upper) { 9 }
+        it '閉区間[3,8]と閉区間[3,9]は等しくない' do
+          expect(subject).to eq false
+        end
+      end
+      describe '下端点は等しくないが、上端点は等しい' do
+        let(:lower) { 4 }
+        let(:upper) { 8 }
+        it '閉区間[3,8]と閉区間[4,8]は等しくない' do
+          expect(subject).to eq false
+        end
+      end
+      describe '下端点と上端点がどちらも等しくない' do
+        let(:lower) { 4 }
+        let(:upper) { 5 }
+        it '閉区間[3,8]と閉区間[4,5]は等しくない' do
+          expect(subject).to eq false
+        end
+      end
+    end
+
+    describe '別の閉区間を完全に含むかどうかを判定する' do
+      it '閉区間[3,8]は閉区間[4,7]を完全に含む' do
+        expect(ClosedRange.new(lower: 3, upper: 8).contain?(ClosedRange.new(lower: 4, upper: 7))).to eq true
+      end
+    end
   end
 
   describe '定義に沿わない閉区間' do
@@ -80,48 +122,6 @@ describe ClosedRange do
       it '下端点 4, 上端点 3の閉区間を作ることができない' do
         expect { ClosedRange.new(lower: 4, upper: 3) }.to raise_error ClosedRange::InvalidClosedRangeError
       end
-    end
-  end
-
-  describe '別の閉区間と等価かどうかを判定する' do
-    let(:closed_range1) { ClosedRange.new(lower: 3, upper: 8) }
-    let(:closed_range2) { ClosedRange.new(lower: lower, upper: upper) }
-
-    subject { closed_range1 == closed_range2 }
-
-    describe '下端点と上端点は等しい' do
-      let(:lower) { 3 }
-      let(:upper) { 8 }
-      it '閉区間[3,8]と閉区間[3,8]は等しい' do
-        expect(subject).to eq true
-      end
-    end
-    describe '下端点は等しいが、上端点は等しくない' do
-      let(:lower) { 3 }
-      let(:upper) { 9 }
-      it '閉区間[3,8]と閉区間[3,9]は等しくない' do
-        expect(subject).to eq false
-      end
-    end
-    describe '下端点は等しくないが、上端点は等しい' do
-      let(:lower) { 4 }
-      let(:upper) { 8 }
-      it '閉区間[3,8]と閉区間[4,8]は等しくない' do
-        expect(subject).to eq false
-      end
-    end
-    describe '下端点と上端点がどちらも等しくない' do
-      let(:lower) { 4 }
-      let(:upper) { 5 }
-      it '閉区間[3,8]と閉区間[4,5]は等しくない' do
-        expect(subject).to eq false
-      end
-    end
-  end
-
-  describe '別の閉区間を完全に含むかどうかを判定する' do
-    it '閉区間[3,8]は閉区間[4,7]を完全に含む' do
-      expect(ClosedRange.new(lower: 3, upper: 8).contain?(ClosedRange.new(lower: 4, upper: 7))).to eq true
     end
   end
 end
