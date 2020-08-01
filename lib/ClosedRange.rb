@@ -1,5 +1,10 @@
 class ClosedRange
-  def initialize()
-    "[3,8]"
+  def initialize(lower:, upper:)
+    @lower = lower
+    @upper = upper
+  end
+
+  def to_s()
+    "[#{@lower},#{@upper}]"
   end
 end
