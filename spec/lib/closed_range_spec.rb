@@ -79,38 +79,24 @@ describe ClosedRange do
     end
   end
 
-  describe '別の閉区間と等価かどうかを判定する' do
-    let(:closed_range1) { ClosedRange.new(lower: 3, upper: 8) }
-    let(:closed_range2) { ClosedRange.new(lower: lower, upper: upper) }
+  describe '閉区間aと閉区間bは等価かどうかを判定する' do
+    let(:a) { ClosedRange.new(lower: 3, upper: 8) }
+    let(:b) { ClosedRange.new(lower: lower, upper: upper) }
 
-    subject { closed_range1 == closed_range2 }
+    subject { a == b }
 
-    describe '下端点と上端点は等しい' do
-      let(:lower) { 3 }
-      let(:upper) { 8 }
-      it '閉区間[3,8]と閉区間[3,8]は等しい' do
-        expect(subject).to eq true
-      end
+    where(:case_name, :lower, :upper, :expected) do
+      [
+        ['下端点と上端点がいずれも等しい', 3, 8, true],
+        ['下端点は等しいが、上端点は等しくない', 3, 9, false],
+        ['下端点は等しくないが、上端点は等しい', 4, 8, false],
+        ['下端点と上端点がどちらも等しくない', 4, 5, false],
+      ]
     end
-    describe '下端点は等しいが、上端点は等しくない' do
-      let(:lower) { 3 }
-      let(:upper) { 9 }
-      it '閉区間[3,8]と閉区間[3,9]は等しくない' do
-        expect(subject).to eq false
-      end
-    end
-    describe '下端点は等しくないが、上端点は等しい' do
-      let(:lower) { 4 }
-      let(:upper) { 8 }
-      it '閉区間[3,8]と閉区間[4,8]は等しくない' do
-        expect(subject).to eq false
-      end
-    end
-    describe '下端点と上端点がどちらも等しくない' do
-      let(:lower) { 4 }
-      let(:upper) { 5 }
-      it '閉区間[3,8]と閉区間[4,5]は等しくない' do
-        expect(subject).to eq false
+
+    with_them do
+      context "b: [#{params[:lower]},#{params[:upper]}]" do
+        it { is_expected.to eq expected}
       end
     end
   end
