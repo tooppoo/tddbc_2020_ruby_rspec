@@ -14,11 +14,11 @@
 # - [ ] 完全に含まれるかどうかを判定できる
 # - [ ] 小数を渡されるとエラーにする
 # - [ ] context を使う
+# - [ ] raise error のテストでletが使えない
 
 describe ClosedRange do
+  let(:closed_range) { ClosedRange.new(lower: lower, upper: upper) }
   describe '定義に沿った閉区間' do
-    let(:closed_range) { ClosedRange.new(lower: lower, upper: upper) }
-
     describe '文字列表記を返す' do
       describe '下端点 != 上端点' do
         let(:lower) { 3 }
@@ -39,32 +39,36 @@ describe ClosedRange do
     describe '整数の閉区間に整数pは含まれるか' do
       let(:lower) { 3 }
       let(:upper) { 8 }
+      subject { closed_range.include?(num) }
 
       describe 'p < 下端点' do
-        subject { closed_range.include?(num) }
-
+        let(:num) { 2 }
         it '下端点 3, 上端点 8 の整数閉区間は2を含まない' do
-          expect(closed_range.include?(2)).to eq false
+          expect(subject).to eq false
         end
       end
       describe '下端点 == p' do
+        let(:num) { 3 }
         it '下端点 3, 上端点 8 の整数閉区間は3を含む' do
-          expect(closed_range.include?(3)).to eq true
+          expect(subject).to eq true
         end
       end
       describe '下端点 < p < 上端点' do
+        let(:num) { 4 }
         it '下端点 3, 上端点 8 の整数閉区間は4を含む' do
-          expect(closed_range.include?(4)).to eq true
+          expect(subject).to eq true
         end
       end
       describe 'p == 上端点' do
+        let(:num) { 8 }
         it '下端点 3, 上端点 8 の整数閉区間は8を含む' do
-          expect(closed_range.include?(8)).to eq true
+          expect(subject).to eq true
         end
       end
       describe '上端点 < p' do
+        let(:num) { 9 }
         it '下端点 3, 上端点 8 の整数閉区間は9を含まない' do
-          expect(closed_range.include?(9)).to eq false
+          expect(subject).to eq false
         end
       end
     end
@@ -80,6 +84,8 @@ describe ClosedRange do
 
   describe '別の閉区間と等価かどうかを判定する' do
     describe '下端点と上端点は等しい' do
+      let(:lower) { 3 }
+      let
       it '閉区間[3,8]と閉区間[3,8]は等しい' do
         expect(ClosedRange.new(lower: 3, upper: 8) == ClosedRange.new(lower: 3, upper: 8)).to eq true
       end
