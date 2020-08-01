@@ -20,6 +20,10 @@ class ClosedRange
     @lower <= num && num <= @upper
   end
 
+  def contain?(range)
+    @lower <= range.lower && range.upper <= @upper
+  end
+
   def ==(range)
     lower == range.lower && upper == range.upper
   end
