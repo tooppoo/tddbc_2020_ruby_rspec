@@ -28,8 +28,8 @@ describe ClosedRange do
         it { is_expected.not_to raise_error }
       end
       context '下端点 == 上端点' do
-        let(:lower) { 3 }
-        let(:upper) { 8 }
+        let(:lower) { 4 }
+        let(:upper) { 4 }
         it { is_expected.not_to raise_error }
       end
     end
