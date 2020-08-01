@@ -127,59 +127,62 @@ describe ClosedRange do
     end
   end
 
-  describe '閉区間Aが閉区間Bを完全に含むかどうかを判定する' do
-    context 'A = [3,8]' do
-      let(:base_range) { ClosedRange.new(lower: 3, upper: 8) }
+  describe '閉区間aが閉区間bを完全に含むかどうかを判定する' do
+    context 'a = [3,8]' do
+      let(:a) { ClosedRange.new(lower: 3, upper: 8) }
 
-      subject { base_range.contain?(compared) }
+      subject { a.contain?(b) }
 
-      context 'Bの下端点 < Aの下端点' do
-        where(:compared) do
+      context 'bの下端点 < aの下端点' do
+        where(:case_name, :b) do
           [
-            [ClosedRange.new(lower: 1, upper: 1)],
-            [ClosedRange.new(lower: 1, upper: 3)],
-            [ClosedRange.new(lower: 1, upper: 4)],
-            [ClosedRange.new(lower: 1, upper: 8)],
-            [ClosedRange.new(lower: 1, upper: 9)],
+            ['bの上端点 < aの下端点', ClosedRange.new(lower: 1, upper: 2)],
+            ['bの上端点 = aの下端点', ClosedRange.new(lower: 1, upper: 3)],
+            ['aの下端点 < bの上端点 < aの上端点', ClosedRange.new(lower: 1, upper: 4)],
+            ['bの上端点 = aの上端点', ClosedRange.new(lower: 1, upper: 8)],
+            ['aの上端点 < bの上端点', ClosedRange.new(lower: 1, upper: 9)],
           ]
         end
 
         with_them do
-          it { is_expected.to eq false }
+          context "b: #{params[:b]}" do
+            it { is_expected.to eq false }
+          end
         end
       end
-      context 'Bの下端点 = Aの下端点' do
-        where(:compared, :expected) do
+      context 'bの下端点 = aの下端点' do
+        where(:case_name, :b, :expected) do
           [
-            [ClosedRange.new(lower: 3, upper: 3), true],
-            [ClosedRange.new(lower: 3, upper: 4), true],
-            [ClosedRange.new(lower: 3, upper: 8), true],
-            [ClosedRange.new(lower: 3, upper: 9), false],
+            ['bの上端点 < aの上端点', ClosedRange.new(lower: 3, upper: 4), true],
+            ['bの上端点 = aの上端点', ClosedRange.new(lower: 3, upper: 8), true],
+            ['aの上端点 < bの上端点', ClosedRange.new(lower: 3, upper: 9), false],
           ]
         end
 
         with_them do
-          it { is_expected.to eq expected }
+          context "b: #{params[:b]}" do
+            it { is_expected.to eq expected }
+          end
         end
       end
-      context 'Aの下端点 < Bの下端点 < Aの上端点' do
-        where(:compared, :expected) do
+      context 'aの下端点 < bの下端点 < aの上端点' do
+        where(:case_name, :b, :expected) do
           [
-            [ClosedRange.new(lower: 5, upper: 5), true],
-            [ClosedRange.new(lower: 5, upper: 6), true],
-            [ClosedRange.new(lower: 5, upper: 8), true],
-            [ClosedRange.new(lower: 5, upper: 9), false],
+            ["bの上端点 < aの上端点", ClosedRange.new(lower: 5, upper: 6), true],
+            ["bの上端点 = aの上端点", ClosedRange.new(lower: 5, upper: 8), true],
+            ["aの上端点 < bの上端点", ClosedRange.new(lower: 5, upper: 9), false],
           ]
         end
 
         with_them do
-          it { is_expected.to eq expected }
+          context "b: #{params[:b]}" do
+            it { is_expected.to eq expected }
+          end
         end
       end
-      context 'Aの上端点 < Bの下端点' do
-        where(:compared) do
+      context 'aの上端点 < bの下端点' do
+        where(:b) do
           [
-            [ClosedRange.new(lower: 9, upper: 9)],
             [ClosedRange.new(lower: 9, upper: 10)],
           ]
         end
