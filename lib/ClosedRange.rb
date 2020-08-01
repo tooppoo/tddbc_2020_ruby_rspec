@@ -30,7 +30,7 @@ class ClosedRange
   end
 
   def contain?(range)
-    use_only_not_when_empty(range, when_empty: false) do
+    use_only_not_when_empty(range, when_empty: true) do
       @lower <= range.lower && range.upper <= @upper
     end
   end

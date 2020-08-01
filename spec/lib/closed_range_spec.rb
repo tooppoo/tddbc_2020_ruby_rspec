@@ -202,7 +202,7 @@ describe ClosedRange do
         let(:b) { ClosedRange.empty }
 
         context 'b: empty' do
-          it { is_expected.to be false }
+          it { is_expected.to be true }
         end
       end
     end
