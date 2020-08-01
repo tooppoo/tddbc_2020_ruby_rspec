@@ -15,6 +15,9 @@ class ClosedRange
   def to_s
     "[#{@lower},#{@upper}]"
   end
+  def inspect
+    to_s
+  end
 
   def include?(num)
     @lower <= num && num <= @upper

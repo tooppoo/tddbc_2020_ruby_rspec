@@ -136,7 +136,7 @@ describe ClosedRange do
       context 'Bの下端点 < Aの下端点' do
         where(:compared) do
           [
-            [ClosedRange.new(lower: 1, upper: 2)],
+            [ClosedRange.new(lower: 1, upper: 1)],
             [ClosedRange.new(lower: 1, upper: 3)],
             [ClosedRange.new(lower: 1, upper: 4)],
             [ClosedRange.new(lower: 1, upper: 8)],
