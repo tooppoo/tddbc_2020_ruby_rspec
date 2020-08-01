@@ -180,6 +180,20 @@ describe ClosedRange do
           end
         end
       end
+      context 'aの上端点 = bの下端点' do
+        where(:case_name, :b, :expected) do
+          [
+            ['bの上端点 = aの上端点', ClosedRange.new(lower: 8, upper: 8), true],
+            ['aの上端点 < bの上端点', ClosedRange.new(lower: 8, upper: 9), false],
+          ]
+        end
+
+        with_them do
+          context "b: #{params[:b]}" do
+            it { is_expected.to eq expected }
+          end
+        end
+      end
       context 'aの上端点 < bの下端点' do
         where(:b) do
           [
