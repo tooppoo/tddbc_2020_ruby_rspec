@@ -128,9 +128,67 @@ describe ClosedRange do
     end
   end
 
-  describe '別の閉区間を完全に含むかどうかを判定する' do
-    it '閉区間[3,8]は閉区間[4,7]を完全に含む' do
-      expect(ClosedRange.new(lower: 3, upper: 8).contain?(ClosedRange.new(lower: 4, upper: 7))).to eq true
+  describe '閉区間Aが閉区間Bを完全に含むかどうかを判定する' do
+    context 'A = [3,8]' do
+      let(:base_range) { ClosedRange.new(lower: 3, upper: 8) }
+
+      subject { base_range.contain?(compared) }
+
+      context 'Bの下端点 < Aの下端点' do
+        where(:compared) do
+          [
+            [ClosedRange.new(lower: 1, upper: 2)],
+            [ClosedRange.new(lower: 1, upper: 3)],
+            [ClosedRange.new(lower: 1, upper: 4)],
+            [ClosedRange.new(lower: 1, upper: 8)],
+            [ClosedRange.new(lower: 1, upper: 9)],
+          ]
+        end
+
+        with_them do
+          it { is_expected.to eq false }
+        end
+      end
+      context 'Bの下端点 = Aの下端点' do
+        where(:compared, :expected) do
+          [
+            [ClosedRange.new(lower: 3, upper: 3), true],
+            [ClosedRange.new(lower: 3, upper: 4), true],
+            [ClosedRange.new(lower: 3, upper: 8), true],
+            [ClosedRange.new(lower: 3, upper: 9), false],
+          ]
+        end
+
+        with_them do
+          it { is_expected.to eq expected }
+        end
+      end
+      context 'Aの下端点 < Bの下端点 < Aの上端点' do
+        where(:compared, :expected) do
+          [
+            [ClosedRange.new(lower: 5, upper: 5), true],
+            [ClosedRange.new(lower: 5, upper: 6), true],
+            [ClosedRange.new(lower: 5, upper: 8), true],
+            [ClosedRange.new(lower: 5, upper: 9), false],
+          ]
+        end
+
+        with_them do
+          it { is_expected.to eq expected }
+        end
+      end
+      context 'Aの上端点 < Bの下端点' do
+        where(:compared) do
+          [
+            [ClosedRange.new(lower: 9, upper: 9)],
+            [ClosedRange.new(lower: 9, upper: 10)],
+          ]
+        end
+
+        with_them do
+          it { is_expected.to eq false }
+        end
+      end
     end
   end
 end
