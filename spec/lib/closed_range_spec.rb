@@ -13,13 +13,17 @@
 # - [x] 別の閉区間と等価かどうかを判定できる
 # - [ ] 完全に含まれるかどうかを判定できる
 # - [ ] 小数を渡されるとエラーにする
+# - [ ] context を使う
 
 describe ClosedRange do
   describe '定義に沿った閉区間' do
+    let(:closed_range) { ClosedRange.new(lower: lower, upper: upper) }
     describe '文字列表記を返す' do
       describe '下端点 != 上端点' do
+        let(:lower) { 3 }
+        let(:upper) { 8 }
         it '下端点 3, 上端点 8 の整数閉区間の文字列表記は "[3,8]"' do
-          expect(ClosedRange.new(lower: 3, upper: 8).to_s).to eq "[3,8]"
+          expect(closed_range.to_s).to eq "[3,8]"
         end
       end
       describe '下端点 == 上端点' do
