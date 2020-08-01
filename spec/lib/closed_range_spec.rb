@@ -16,6 +16,9 @@
 # - [x] raise error のテストでletが使えない
 # - [x] to_s とオブジェクト生成のバリエーションでテスト分離
 # - [x] 閉区間に含まれる整数を列挙できる
+# - [ ] 閉区間同士の重複部分を取得できる
+#   - [x] 重複がある場合
+#   - [ ] 重複がない場合
 
 describe ClosedRange do
   describe '閉区間の生成' do
@@ -202,6 +205,85 @@ describe ClosedRange do
     with_them do
       context "a: [#{params[:lower]},#{params[:upper]}]" do
         it { is_expected.to eq expected }
+      end
+    end
+  end
+
+  describe '閉区間aと閉区間bの重複を取れる' do
+    subject { a * b }
+
+    context 'a: [3,8]' do
+      let(:a) { ClosedRange.new(lower: 3, upper: 8) }
+      let(:b) { ClosedRange.new(lower: lower, upper: upper ) }
+      let(:expected) { ClosedRange.new(lower: expected_lower, upper: expected_upper ) }
+
+      context 'bの下端点 < aの下端点' do
+        let(:lower) { 1 }
+
+        where(:case_name, :upper, :expected_lower, :expected_upper) do
+          [
+            ['aの下端点 = bの上端点', 3, 3, 3],
+            ['bの上端点 < aの上端点', 7, 3, 7],
+            ['aの上端点 = bの上端点', 8, 3, 8],
+            ['aの上端点 < bの上端点', 9, 3, 8],
+          ]
+        end
+
+        with_them do
+          context "b: [2,#{params[:upper]}]" do
+            it { is_expected.to eq expected }
+          end
+        end
+      end
+      context 'aの下端点 = bの下端点' do
+        let(:lower) { 3 }
+
+        where(:case_name, :upper, :expected_lower, :expected_upper) do
+          [
+            ['bの上端点 < aの上端点', 7, 3, 7],
+            ['aの上端点 = bの上端点', 8, 3, 8],
+            ['aの上端点 < bの上端点', 9, 3, 8],
+          ]
+        end
+
+        with_them do
+          context "b: [3,#{params[:upper]}]" do
+            it { is_expected.to eq expected }
+          end
+        end
+      end
+      context 'aの下端点 < bの下端点 < aの上端点' do
+        let(:lower) { 4 }
+
+        where(:case_name, :upper, :expected_lower, :expected_upper) do
+          [
+            ['bの上端点 < aの上端点', 7, 4, 7],
+            ['aの上端点 = bの上端点', 8, 4, 8],
+            ['aの上端点 < bの上端点', 9, 4, 8],
+          ]
+        end
+
+        with_them do
+          context "b: [4,#{params[:upper]}]" do
+            it { is_expected.to eq expected }
+          end
+        end
+      end
+      context 'bの下端点 = aの上端点' do
+        let(:lower) { 8 }
+
+        where(:case_name, :upper, :expected_lower, :expected_upper) do
+          [
+            ['aの上端点 = bの上端点', 8, 8, 8],
+            ['aの上端点 < bの上端点', 9, 8, 8],
+          ]
+        end
+
+        with_them do
+          context "b: [8,#{params[:upper]}]" do
+            it { is_expected.to eq expected }
+          end
+        end
       end
     end
   end

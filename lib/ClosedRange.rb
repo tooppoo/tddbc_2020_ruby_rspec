@@ -31,6 +31,13 @@ class ClosedRange
     lower == range.lower && upper == range.upper
   end
 
+  def *(range)
+    ClosedRange.new(
+      lower: range.lower < @lower ? @lower : range.lower,
+      upper: @upper < range.upper ? @upper : range.upper
+    )
+  end
+
   def to_a
     (@lower..@upper).to_a
   end
