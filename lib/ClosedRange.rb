@@ -12,7 +12,7 @@ class ClosedRange
     end
   end
 
-  def to_s()
+  def to_s
     "[#{@lower},#{@upper}]"
   end
 
