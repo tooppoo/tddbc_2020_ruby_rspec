@@ -7,10 +7,12 @@
 #   - [ ] describeの記述
 #   - [ ] テストの分類
 # - [x] 上端点より下端点が大きい閉区間を作ることはできない
-# - [ ] 整数の閉区間は指定した整数を含むかどうかを判定する
-#  - [ ] 下端点 3, 上端点 8 の整数閉区間は4を含む
+# - [x] 整数の閉区間は指定した整数を含むかどうかを判定する
+#  - [x] 下端点 3, 上端点 8 の整数閉区間は4を含む
+#  - [x] 下端点 3, 上端点 8 の整数閉区間は2を含まない
 # - [ ] 別の閉区間と等価かどうかを判定できる
 # - [ ] 完全に含まれるかどうかを判定できる
+# - [ ] 小数を渡されるとエラーにする
 
 describe ClosedRange do
   describe '定義に沿った閉区間' do
@@ -30,7 +32,18 @@ describe ClosedRange do
       it '下端点 3, 上端点 8 の整数閉区間は4を含む' do
         expect(ClosedRange.new(lower: 3, upper: 8).include?(4)).to eq true
       end
-
+      it '下端点 3, 上端点 8 の整数閉区間は3を含む' do
+        expect(ClosedRange.new(lower: 3, upper: 8).include?(3)).to eq true
+      end
+      it '下端点 3, 上端点 8 の整数閉区間は8を含む' do
+        expect(ClosedRange.new(lower: 3, upper: 8).include?(8)).to eq true
+      end
+      it '下端点 3, 上端点 8 の整数閉区間は2を含まない' do
+        expect(ClosedRange.new(lower: 3, upper: 8).include?(2)).to eq false
+      end
+      it '下端点 3, 上端点 8 の整数閉区間は9を含まない' do
+        expect(ClosedRange.new(lower: 3, upper: 8).include?(9)).to eq false
+      end
     end
   end
 
