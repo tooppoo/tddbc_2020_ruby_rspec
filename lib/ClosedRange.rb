@@ -21,6 +21,14 @@ class ClosedRange
   end
 
   def ==(range)
+    lower == range.lower && upper == range.upper
+  end
 
+  protected
+  def lower
+    @lower
+  end
+  def upper
+    @upper
   end
 end

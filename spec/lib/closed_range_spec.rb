@@ -67,8 +67,21 @@ describe ClosedRange do
   end
 
   describe '別の閉区間と等価かどうかを判定する' do
+    describe '下端点は等しいが、上端点は等しくない' do
+      it '閉区間[3,8]と閉区間[3,9]は等しくない' do
+        expect(ClosedRange.new(lower: 3, upper: 8) == ClosedRange.new(lower: 3, upper: 9)).to eq false
+      end
+    end
+    describe '下端点は等しくないが、上端点は等しい' do
+      it '閉区間[4,8]と閉区間[3,8]は等しくない' do
+        expect(ClosedRange.new(lower: 4, upper: 8) == ClosedRange.new(lower: 3, upper: 8)).to eq false
+      end
+    end
     it '閉区間[3,8]と閉区間[3,8]は等しい' do
       expect(ClosedRange.new(lower: 3, upper: 8) == ClosedRange.new(lower: 3, upper: 8)).to eq true
+    end
+    it '閉区間[3,8]と閉区間[4,5]は等しくない' do
+      expect(ClosedRange.new(lower: 3, upper: 8) == ClosedRange.new(lower: 4, upper: 5)).to eq false
     end
   end
 end
