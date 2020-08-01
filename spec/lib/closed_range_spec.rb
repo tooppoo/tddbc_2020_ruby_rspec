@@ -118,4 +118,10 @@ describe ClosedRange do
       end
     end
   end
+
+  describe '別の閉区間を完全に含むかどうかを判定する' do
+    it '閉区間[3,8]は閉区間[4,7]を完全に含む' do
+      expect(ClosedRange.new(lower: 3, upper: 8).contain(ClosedRange.new(lower: 4, upper: 7))).to eq true
+    end
+  end
 end

@@ -24,6 +24,7 @@ class ClosedRange
     lower == range.lower && upper == range.upper
   end
 
+
   protected
   def lower
     @lower
