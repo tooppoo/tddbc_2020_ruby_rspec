@@ -31,6 +31,9 @@ class ClosedRange
     lower == range.lower && upper == range.upper
   end
 
+  def to_a
+    (@lower..@upper).to_a
+  end
 
   protected
   def lower

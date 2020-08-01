@@ -15,6 +15,7 @@
 # - [x] context を使う
 # - [x] raise error のテストでletが使えない
 # - [x] to_s とオブジェクト生成のバリエーションでテスト分離
+# - [x] 閉区間に含まれる整数を列挙できる
 
 describe ClosedRange do
   describe '閉区間の生成' do
@@ -185,6 +186,22 @@ describe ClosedRange do
         with_them do
           it { is_expected.to eq false }
         end
+      end
+    end
+  end
+
+  describe '閉区間aに含まれる整数を列挙できる' do
+    subject { closed_range.to_a }
+    where(:case_name, :lower, :upper, :expected) do
+      [
+        ['下端点 == 上端点', 1, 1, [1]],
+        ['下端点 < 上端点', 1, 4, [1, 2, 3, 4]],
+      ]
+    end
+
+    with_them do
+      context "a: [#{params[:lower]},#{params[:upper]}]" do
+        it { is_expected.to eq expected }
       end
     end
   end
