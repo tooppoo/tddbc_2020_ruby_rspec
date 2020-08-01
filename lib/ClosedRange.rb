@@ -30,18 +30,26 @@ class ClosedRange
   end
 
   def contain?(range)
-    @lower <= range.lower && range.upper <= @upper
+    use_only_not_when_empty(range, when_empty: false) do
+      @lower <= range.lower && range.upper <= @upper
+    end
   end
 
   def ==(range)
-    lower == range.lower && upper == range.upper
+    use_only_not_when_empty(range, when_empty: false) do
+      lower == range.lower && upper == range.upper
+    end
   end
 
   def *(range)
-    ClosedRange.new(
-      lower: range.lower < @lower ? @lower : range.lower,
-      upper: @upper < range.upper ? @upper : range.upper
-    )
+    use_only_not_when_empty(range, when_empty: ClosedRange.empty) do
+      return ClosedRange.empty if range.upper < @lower || @upper < range.lower
+
+      ClosedRange.new(
+        lower: range.lower < @lower ? @lower : range.lower,
+        upper: @upper < range.upper ? @upper : range.upper
+      )
+    end
   end
 
   def to_a
@@ -54,6 +62,15 @@ class ClosedRange
   end
   def upper
     @upper
+  end
+
+  private def use_only_not_when_empty(range, when_empty:)
+    case range
+    when ClosedRange::Empty then
+      when_empty
+    else
+      yield range
+    end
   end
 
   class Empty

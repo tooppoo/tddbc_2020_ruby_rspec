@@ -108,6 +108,14 @@ describe ClosedRange do
           it { is_expected.to eq expected}
         end
       end
+
+      context '空範囲' do
+        context 'b: empty' do
+          let(:b) { ClosedRange.empty }
+
+          it { is_expected.to be false }
+        end
+      end
     end
   end
 
@@ -190,6 +198,13 @@ describe ClosedRange do
           it { is_expected.to eq false }
         end
       end
+      context '空範囲' do
+        let(:b) { ClosedRange.empty }
+
+        context 'b: empty' do
+          it { is_expected.to be false }
+        end
+      end
     end
   end
 
@@ -219,11 +234,18 @@ describe ClosedRange do
 
       context 'bの下端点 < aの下端点' do
         let(:lower) { 1 }
+        context 'bの上端点 < aの下端点' do
+          context 'b: [1,2]' do
+            let(:upper) { 2 }
+
+            it { is_expected.to eq ClosedRange.empty }
+          end
+        end
 
         where(:case_name, :upper, :expected_lower, :expected_upper) do
           [
-            ['aの下端点 = bの上端点', 3, 3, 3],
-            ['bの上端点 < aの上端点', 7, 3, 7],
+            ['bの上端点 = aの下端点', 3, 3, 3],
+            ['aの下端点 < bの上端点 < aの上端点', 7, 3, 7],
             ['aの上端点 = bの上端点', 8, 3, 8],
             ['aの上端点 < bの上端点', 9, 3, 8],
           ]
@@ -283,6 +305,21 @@ describe ClosedRange do
           context "b: [8,#{params[:upper]}]" do
             it { is_expected.to eq expected }
           end
+        end
+      end
+      context 'aの上端点 < bの下端点' do
+        let(:lower) { 9 }
+        let(:upper) { 10 }
+
+        context 'b: [9,10]' do
+          it { is_expected.to eq ClosedRange.empty }
+        end
+      end
+      context '空範囲' do
+        context 'b: empty' do
+          let(:b) { ClosedRange.empty }
+
+          it { is_expected.to eq ClosedRange.empty }
         end
       end
     end
